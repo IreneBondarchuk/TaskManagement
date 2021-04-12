@@ -1,0 +1,27 @@
+
+body{
+    background-color: #eaeaea !important;
+  }
+
+
+  .ui.inverted.menu{
+    background-color: rgba(35, 11, 61, 0.755) !important;
+  }
+
+  .ui.inverted.segment.process{
+    background: #f8e692 !important;
+  }
+
+  .ui.inverted.segment.todo{
+    background: #b4d9ff !important;
+  }
+
+  .ui.inverted.segment.done{
+    background: #9ce79a !important;
+  }
+
+  .ui.inverted.segment>.ui.header {
+    color: #362727 !important;
+}
+
+
