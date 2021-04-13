@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core;
 using Application.WorkTasks;
 using Domain;
 using MediatR;
@@ -14,9 +15,9 @@ namespace API.Controllers
     {
        
         [HttpGet]
-        public async Task<ActionResult<List<WorkTask>>> GetWorkTasks(CancellationToken ct)
+        public async Task<ActionResult<List<WorkTask>>> GetWorkTasks()
         {
-            return HandleResult(await Mediator.Send(new List.Query(), ct));
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
 
         [HttpGet("{id}")]

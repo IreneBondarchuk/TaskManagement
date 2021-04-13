@@ -5,8 +5,8 @@ import { Executor } from "./executor";
     id: string;
     title: string;
     description: string;
-  //  executor: Executor;
+    // executor: Executor;
     deadline: string;
     status: number;
-    //category: Category;
+    // category: Category;
   }

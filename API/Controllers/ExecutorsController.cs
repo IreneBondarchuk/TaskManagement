@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Core;
 using Application.Executors;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ namespace API.Controllers
     public class ExecutorsController : BaseAPIController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Executor>>> GetExecutors()
+        public async Task<ActionResult<List<Executor>>> GetExecutors([FromQuery]PagingParams param)
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }
 
         [HttpGet("{id}")]

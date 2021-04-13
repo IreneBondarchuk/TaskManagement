@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx"
 import agent from "../api/agent";
 import { Task } from "../models/task"
 import {v4 as uuid} from 'uuid'
+import { Pagination } from "../models/pagination";
 
 export default class TaskStore {
     taskRegistry = new Map<string, Task>()
@@ -11,7 +12,7 @@ export default class TaskStore {
     loadingInitial = false;
     submitting = false;
 
-    constructor(){
+    constructor(){ 
         makeAutoObservable(this)
     }
 
@@ -21,8 +22,8 @@ export default class TaskStore {
     loadTasks = async ()=>{
         this.setLoadingInitial(true);
         try{
-            const tasks = await agent.Tasks.list();
-            tasks.forEach(task =>{
+            const result = await agent.Tasks.list();
+            result.forEach(task =>{
                 task.deadline = task.deadline.split('T')[0];
                 this.taskRegistry.set(task.id, task);
                 })
@@ -33,6 +34,7 @@ export default class TaskStore {
         }
 
     }
+
 
     setLoadingInitial=(state: boolean) => {
         this.loadingInitial = state;

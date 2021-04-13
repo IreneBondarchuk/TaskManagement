@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Grid, Header, Segment, Sticky } from 'semantic-ui-react'
+import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { useStore } from '../../../app/stores/store'
 import TaskDetails from '../details/TaskDetail'
 import TaskForm from '../form/TaskForm'
@@ -9,7 +10,14 @@ import TaskList from './TaskList'
 
 export default observer(function TaskDashboard(){
     const {taskStore} = useStore();
-    const {selectedTask, editMode} = taskStore;
+    const {selectedTask, editMode} = taskStore
+
+    useEffect(() => {
+     taskStore.loadTasks();
+    }, [taskStore])
+   
+    if(taskStore.loadingInitial) return <LoadingComponent content='Loading...' />
+  
     return(
         <Grid inverted>
         

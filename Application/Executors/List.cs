@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
@@ -11,8 +12,11 @@ namespace Application.Executors
 {
     public class List
     {
-        public class Query : IRequest<Result<List<Executor>>> { }
-        public class Handler : IRequestHandler<Query, Result<List<Executor>>>
+        public class Query : IRequest<Result<PagedList<Executor>>>
+         {
+              public PagingParams Params { get; set; }
+         }
+        public class Handler : IRequestHandler<Query, Result<PagedList<Executor>>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -20,9 +24,13 @@ namespace Application.Executors
                 _context = context;
             }
 
-            public async Task<Result<List<Executor>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<Executor>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Executor>>.Success(await _context.Executors.ToListAsync());
+                var query = _context.Executors.OrderBy(x => x.FirstName).ThenBy(x => x.Surname).AsQueryable();
+                
+                return Result<PagedList<Executor>>.Success(
+                    await PagedList<Executor>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize)
+                );
             }
         }
     }

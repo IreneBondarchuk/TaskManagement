@@ -2,6 +2,8 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react'
 import { ChangeEvent } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react'
+
+
 import { useStore } from '../../../app/stores/store';
 
 
@@ -14,7 +16,9 @@ export default observer(function TaskForm(){
         title: '',
         description: '',
         deadline: '',
-        status: 1
+        status: 1,
+        // executor:{} as Executor,
+        // category:{} as Category
     }
 
  const [task, setTask] = useState(initialState);

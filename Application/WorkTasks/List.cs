@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Core;
 using Domain;
 using MediatR;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -11,7 +12,10 @@ namespace Application.WorkTasks
 {
     public class List
     {
-        public class Query : IRequest<Result<List<WorkTask>>> { }
+        public class Query : IRequest<Result<List<WorkTask>>> 
+        {
+            public PagingParams Params { get; set; }
+        }
 
         public class Handler : IRequestHandler<Query, Result<List<WorkTask>>>
         {

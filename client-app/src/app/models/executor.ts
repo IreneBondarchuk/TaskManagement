@@ -1,3 +1,5 @@
+import { Task } from "./task";
+
 export interface Executor {
   id: string;
   firstName: string;
@@ -6,5 +8,5 @@ export interface Executor {
   phoneNumber: string;
   hiringDate: string;
   job: string;
-  tasks: null[];
+  tasks: Task[];
 }
