@@ -1,8 +1,7 @@
-import { makeAutoObservable, runInAction } from "mobx"
+import { makeAutoObservable, reaction, runInAction } from "mobx"
 import agent from "../api/agent";
 import { Task } from "../models/task"
 import {v4 as uuid} from 'uuid'
-import { Pagination } from "../models/pagination";
 
 export default class TaskStore {
     taskRegistry = new Map<string, Task>()
@@ -11,10 +10,58 @@ export default class TaskStore {
     loading = false;
     loadingInitial = false;
     submitting = false;
+    predicate = new Map().set('all', true);
+    filtering = false;
 
     constructor(){ 
         makeAutoObservable(this)
+        reaction(
+           
+            () => this.predicate.keys(),
+            () => {
+                this.filtering = true;
+                this.taskRegistry.clear();
+                this.loadTasks();
+                this.filtering = false;
+            }
+        )
     }
+
+    
+    setPredicate = (predicate: string, value: string) =>{
+        const resetPredicate = ()=>{
+            this.predicate.forEach((value, key) =>{
+                this.predicate.delete(key);
+            })
+        }
+        switch(predicate){
+            case 'all': 
+            resetPredicate();
+            this.predicate.set('all', true);
+            break;
+            case 'title': 
+            resetPredicate();
+            this.predicate.set('title', value);
+            break;
+            case 'categoryId': 
+            resetPredicate();
+            this.predicate.set('categoryId', value);
+            break;
+            case 'executorId': 
+            resetPredicate();
+            this.predicate.set('executorId', value);
+            break;
+        }
+    }
+
+    get axiosParams(){
+        const params = new URLSearchParams();
+        this.predicate.forEach((value, key) => {
+            params.append(key, value);
+        })
+        return params;
+    }
+
 
     get tasksByDate(){
         return Array.from(this.taskRegistry.values()).sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
@@ -22,7 +69,7 @@ export default class TaskStore {
     loadTasks = async ()=>{
         this.setLoadingInitial(true);
         try{
-            const result = await agent.Tasks.list();
+            const result = await agent.Tasks.list(this.axiosParams);
             result.forEach(task =>{
                 task.deadline = task.deadline.split('T')[0];
                 this.taskRegistry.set(task.id, task);
@@ -41,6 +88,7 @@ export default class TaskStore {
     }
 
     selectTask=(id: string) => {
+        debugger;
         this.selectedTask = this.taskRegistry.get(id) ;
     }
 

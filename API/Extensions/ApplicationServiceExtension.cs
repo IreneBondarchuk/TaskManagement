@@ -36,6 +36,10 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddTransient<IValidator<Executor>, ExecutorValidator>();
             services.AddTransient<IValidator<WorkTask>, WtApplication.WorkTaskValidator>();
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             return services;
         }
     }

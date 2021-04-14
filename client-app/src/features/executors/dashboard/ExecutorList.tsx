@@ -8,6 +8,7 @@ export default observer( function ExecutorList(){
         const {executors, selectExecutor} = executorStore;
 
         return(
+            
 <Table basic='very' celled collapsing>
     <Table.Header>
         <Table.Row>
@@ -38,6 +39,8 @@ export default observer( function ExecutorList(){
         </Table.Body>
 
 </Table>
+
+
 
         )
     } 

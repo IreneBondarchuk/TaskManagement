@@ -32,9 +32,5 @@ namespace Application.Core
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
 
-        internal static Task<PagedList<WorkTask>> CreateAsync(IQueryable<Executor> query, object pageNumber, object pageSize)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

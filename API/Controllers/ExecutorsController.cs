@@ -11,7 +11,7 @@ namespace API.Controllers
     public class ExecutorsController : BaseAPIController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Executor>>> GetExecutors([FromQuery]PagingParams param)
+        public async Task<ActionResult<List<Executor>>> GetExecutors([FromQuery]ExecutorParams param)
         {
             return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }

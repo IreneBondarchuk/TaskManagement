@@ -1,11 +1,12 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react'
-import { Button, Card } from 'semantic-ui-react';
+import { Button, Card, Icon, Label } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { useStore } from '../../../app/stores/store';
 
 
 
-export default function TaskDetails(){
+export default observer(function TaskDetails(){
     const {taskStore} = useStore();
     const {selectedTask: task, openForm,cancelSelectTask} = taskStore;
 
@@ -16,7 +17,9 @@ export default function TaskDetails(){
             <Card.Content>
                 <Card.Header>{task.title}</Card.Header>
                 <Card.Meta>
-                    <span className='date'>{task.deadline}</span>
+                <Label> <Icon name='tag' /> <Label.Detail>{task.category.title}</Label.Detail> </Label>
+                <Label> <Icon name='calendar alternate outline' /> <Label.Detail><span className='date'>{task.deadline}</span></Label.Detail> </Label>
+                    
                 </Card.Meta>
                 <Card.Description>{task.description}</Card.Description>
             </Card.Content>
@@ -29,4 +32,4 @@ export default function TaskDetails(){
         </Card>
     )
 
-}
+})

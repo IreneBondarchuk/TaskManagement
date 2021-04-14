@@ -3,25 +3,35 @@ import React, { useEffect } from 'react'
 import { Grid, Header, Segment, Sticky } from 'semantic-ui-react'
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { useStore } from '../../../app/stores/store'
+import ExecutorFilters from '../../executors/dashboard/ExecutorFilters'
 import TaskDetails from '../details/TaskDetail'
 import TaskForm from '../form/TaskForm'
+import TaskFilters from './TaskFilters'
 import TaskList from './TaskList'
 
 
 export default observer(function TaskDashboard(){
-    const {taskStore} = useStore();
+    const {taskStore, categoryStore, executorStore} = useStore();
     const {selectedTask, editMode} = taskStore
 
     useEffect(() => {
      taskStore.loadTasks();
     }, [taskStore])
+
+    useEffect(() => {
+        categoryStore.loadCategories();
+       }, [categoryStore])
    
+       useEffect(() => {
+        executorStore.loadExecutors();
+       }, [executorStore])
+
     if(taskStore.loadingInitial) return <LoadingComponent content='Loading...' />
   
     return(
         <Grid inverted>
         
-                <Grid.Column width='4'>
+            <Grid.Column width='4'>
                 <Segment inverted className='todo'>
                     <Header as='h2' icon='star half empty' content='To Do' />
                     <TaskList  status={1} />
@@ -45,11 +55,12 @@ export default observer(function TaskDashboard(){
             </Grid.Column>
             
             <Grid.Column width='4'>
-                <Sticky>
+                <TaskFilters/>
+                {/* <Sticky> */}
                     {selectedTask && <TaskDetails  />} 
                     {editMode && <TaskForm  />}
 
-                </Sticky>   
+                {/* </Sticky>    */}
             </Grid.Column>
         </Grid>
         

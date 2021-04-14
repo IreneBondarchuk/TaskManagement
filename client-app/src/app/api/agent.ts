@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { Category } from '../models/category';
 import { Executor } from '../models/executor';
 import { PaginatedResult } from '../models/pagination';
 import { Task } from '../models/task';
@@ -13,7 +14,7 @@ const sleep = (delay: number) => {
 axios.defaults.baseURL = 'http://localhost:5000/api/'
 
 axios.interceptors.response.use(async response => {
-    return sleep(500).then(() => {
+    return sleep(50).then(() => {
         const pagination = response.headers['pagination'];
         if(pagination){
             response.data = new PaginatedResult(response.data, JSON.parse(pagination));
@@ -36,7 +37,7 @@ const requests = {
 }
 
 const Tasks = {
-    list: () => requests.get<Task[]>('/worktasks'),
+    list: (params: URLSearchParams) => axios.get<Task[]>('/worktasks', {params}).then(responseBody),
     details: (id: string) => requests.get<Task>(`/worktasks/${id}`),
     create: (task: Task) => requests.post<Task>('/worktasks', task),
     update: (task: Task) => requests.put<Task>(`/worktasks/${task.id}`, task),
@@ -51,10 +52,16 @@ const Executors = {
     delete: (id: string) => requests.del<Task>(`/executors/${id}`)
 }
 
+const Categories = {
+    list: () => requests.get<Category[]>('/categories')
+}
+
+
 
 const agent = {
     Tasks,
-    Executors
+    Executors,
+    Categories
 }
 
 export default agent

@@ -32,7 +32,10 @@ namespace Application.WorkTasks
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                request.WorkTask.Category = null;
+                request.WorkTask.Executor = null;
                 _context.Tasks.Add(request.WorkTask);
+                
                 var result = await _context.SaveChangesAsync() > 0;
                 if(!result) return Result<Unit>.Failure("Failed to create task");
                 return Result<Unit>.Success(Unit.Value);

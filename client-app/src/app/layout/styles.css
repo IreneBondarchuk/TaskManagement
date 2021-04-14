@@ -24,4 +24,6 @@ body{
     color: #362727 !important;
 }
 
-
+.ui.dropdown {
+  margin-bottom: 1em !important;
+}

@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx"
+import { makeAutoObservable, reaction, runInAction } from "mobx"
 import agent from "../api/agent";
 import {v4 as uuid} from 'uuid'
 import { Executor } from "../models/executor";
@@ -11,17 +11,57 @@ export default class ExecutorStore {
     loading = false;
     loadingInitial = false;
     submitting = false;
+    filtering = false;
     pagination: Pagination | null = null
     pagingParams = new PagingParams();
+    predicate = new Map().set('all', true);
 
     constructor(){
         makeAutoObservable(this)
+        reaction(
+            () => this.predicate.keys(),
+            () => {
+                this.filtering = true;
+                this.pagingParams = new PagingParams();
+                this.executorRegistry.clear();
+                this.loadExecutors();
+                this.filtering = false;
+            }
+        )
+    }
+
+   
+
+
+    setPredicate = (predicate: string, value: string) =>{
+        const resetPredicate = ()=>{
+            this.predicate.forEach((value, key) =>{
+                this.predicate.delete(key);
+            })
+        }
+        switch(predicate){
+            case 'all': 
+            resetPredicate();
+            this.predicate.set('all', true);
+            break;
+            case 'surname': 
+            resetPredicate();
+            this.predicate.set('surname', value);
+            break;
+            case 'hasActiveTasks': 
+            resetPredicate();
+            this.predicate.set('hasActiveTasks', true);
+            break;
+        }
     }
 
     get axiosParams(){
         const params = new URLSearchParams();
         params.append('pageNumber', this.pagingParams.pageNumber.toString());
         params.append('pageSize', this.pagingParams.pageSize.toString());
+        this.predicate.forEach((value, key) => {
+            params.append(key, value);
+        })
         return params;
     }
 
@@ -36,16 +76,28 @@ export default class ExecutorStore {
         this.setLoadingInitial(true);
         try{
             const result = await agent.Executors.list(this.axiosParams);
-            result.data.forEach(exec =>{
-                    this.executorRegistry.set(exec.id, exec);
-                })
-            this.setPagination(result.pagination);
-            this.setLoadingInitial(false);
+            runInAction(() =>{
+                this.executorRegistry.clear();
+                result.data.forEach(exec =>{
+                        this.executorRegistry.set(exec.id, exec);
+                    })
+                this.setPagination(result.pagination);
+                this.setLoadingInitial(false);
+            })
+          
         }catch(error){
             console.log(error);
             this.setLoadingInitial(false);
         }
 
+    }
+
+    get options(){
+        let options: { key: string; text: string; value: string; }[] = []
+        this.executorRegistry.forEach((exec) => {
+            options.push({key: exec.id, text: `${exec.firstName} ${exec.surname}`, value: exec.id})
+        })
+       return options;
     }
 
     setPagination = (pagination: Pagination) =>{

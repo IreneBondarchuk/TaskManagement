@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { Button, Icon, Item, Segment } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
 
@@ -24,7 +25,7 @@ export default observer(function TaskList({status}: Props){
                 {tasksByDate.filter(t => t.status === status).map(task => (
                     <Item key={task.id}>
                         <Item.Content>
-                            <Item.Header as='a'>{task.title}</Item.Header>
+                            <Item.Header as={Link} to={`/tasks/${task.id}`}>{task.title}</Item.Header>
                             <Item.Meta>{task.deadline}</Item.Meta>
                             <Item.Extra>
                                 <Button 

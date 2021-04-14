@@ -15,9 +15,9 @@ namespace API.Controllers
     {
        
         [HttpGet]
-        public async Task<ActionResult<List<WorkTask>>> GetWorkTasks()
+        public async Task<ActionResult<List<WorkTask>>> GetWorkTasks([FromQuery]WorkTaskParams param)
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandleResult(await Mediator.Send(new List.Query{Params = param}));
         }
 
         [HttpGet("{id}")]

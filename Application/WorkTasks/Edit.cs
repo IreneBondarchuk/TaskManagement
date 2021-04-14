@@ -35,6 +35,8 @@ namespace Application.WorkTasks
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                request.WorkTask.Category = null;
+                request.WorkTask.Executor = null;
                 var workTask = await _context.Tasks.FindAsync(request.WorkTask.Id);
                 if(workTask == null) return null;
                 _mapper.Map(request.WorkTask, workTask);

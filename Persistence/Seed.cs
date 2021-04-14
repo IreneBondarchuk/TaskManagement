@@ -11,6 +11,20 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context)
         {
+            if(!context.Categories.Any()){
+                var categories = new List<Category>
+                {
+                    new Category  {Id =  new Guid(), Title = "Category1"},
+                    new Category  {Id =  new Guid(), Title = "Category2"},
+                    new Category  {Id =  new Guid(), Title = "Category3"},
+                    new Category  {Id =  new Guid(), Title = "Category4"},
+                    new Category  {Id =  new Guid(), Title = "Category5"},
+                    new Category  {Id =  new Guid(), Title = "Category6"},
+                    new Category  {Id =  new Guid(), Title = "Category7"}
+                };
+                await context.Categories.AddRangeAsync(categories);
+                await context.SaveChangesAsync();
+            }
             if (!context.Executors.Any()) {
                 var employees = new List<Executor>
                 {

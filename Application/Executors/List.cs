@@ -14,7 +14,7 @@ namespace Application.Executors
     {
         public class Query : IRequest<Result<PagedList<Executor>>>
          {
-              public PagingParams Params { get; set; }
+              public ExecutorParams Params { get; set; }
          }
         public class Handler : IRequestHandler<Query, Result<PagedList<Executor>>>
         {
@@ -26,8 +26,17 @@ namespace Application.Executors
 
             public async Task<Result<PagedList<Executor>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = _context.Executors.OrderBy(x => x.FirstName).ThenBy(x => x.Surname).AsQueryable();
+                var query = _context.Executors
+                .Include(t => t.Tasks)
+                .Where(x => request.Params.Surname == null || x.FirstName.Contains(request.Params.Surname) || x.Surname.Contains(request.Params.Surname))
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.Surname)
+                .AsQueryable();
                 
+                if(request.Params.HasActiveTasks){
+                    query = query.Where(x => x.Tasks.Any(t => t.Status == 2));
+                }
+
                 return Result<PagedList<Executor>>.Success(
                     await PagedList<Executor>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize)
                 );
