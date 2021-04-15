@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
-import {  Button, Grid, Icon, Pagination, PaginationProps, Sticky } from 'semantic-ui-react'
+import {  Button, Grid, Icon, Pagination, PaginationProps } from 'semantic-ui-react'
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { PagingParams } from '../../../app/models/pagination';
 import { useStore } from '../../../app/stores/store';
@@ -51,12 +51,9 @@ export default observer(function ExecutorDashboard(){
             <ExecutorList />
             </Grid.Column>
             <Grid.Column width='4'>
-                <ExecutorFilters />
-                <Sticky>
+            <ExecutorFilters />
                     {(selectedExecutor && !editMode) && <ExecutorDetails  />} 
                     {editMode && <ExecutorForm  />}
-
-                </Sticky>   
             </Grid.Column>
         </Grid>
         

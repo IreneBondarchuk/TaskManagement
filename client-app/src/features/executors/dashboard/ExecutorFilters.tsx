@@ -35,7 +35,7 @@ export default function ExecutorFilters(){
                         link: true,
                         onClick:handleClick,
                         placeholder:'Search...'  }}
-                    onChange={(e) => {e.target.value && setTarget(e.target.value)}}
+                    onChange={(e) => {setTarget(e.target.value)}}
                     value={target}
                     placeholder='Display Name'
                 />

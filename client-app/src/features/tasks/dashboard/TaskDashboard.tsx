@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
-import { Grid, Header, Segment, Sticky } from 'semantic-ui-react'
+import { Grid, Header, Segment } from 'semantic-ui-react'
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { useStore } from '../../../app/stores/store'
-import ExecutorFilters from '../../executors/dashboard/ExecutorFilters'
 import TaskDetails from '../details/TaskDetail'
 import TaskForm from '../form/TaskForm'
 import TaskFilters from './TaskFilters'
@@ -56,11 +55,8 @@ export default observer(function TaskDashboard(){
             
             <Grid.Column width='4'>
                 <TaskFilters/>
-                {/* <Sticky> */}
                     {selectedTask && <TaskDetails  />} 
                     {editMode && <TaskForm  />}
-
-                {/* </Sticky>    */}
             </Grid.Column>
         </Grid>
         

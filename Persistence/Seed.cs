@@ -14,13 +14,12 @@ namespace Persistence
             if(!context.Categories.Any()){
                 var categories = new List<Category>
                 {
-                    new Category  {Id =  new Guid(), Title = "Category1"},
-                    new Category  {Id =  new Guid(), Title = "Category2"},
-                    new Category  {Id =  new Guid(), Title = "Category3"},
-                    new Category  {Id =  new Guid(), Title = "Category4"},
-                    new Category  {Id =  new Guid(), Title = "Category5"},
-                    new Category  {Id =  new Guid(), Title = "Category6"},
-                    new Category  {Id =  new Guid(), Title = "Category7"}
+                    new Category  {Id =  new Guid(), Title = "Task"},
+                    new Category  {Id =  new Guid(), Title = "Analyze"},
+                    new Category  {Id =  new Guid(), Title = "Development"},
+                    new Category  {Id =  new Guid(), Title = "Test"},
+                    new Category  {Id =  new Guid(), Title = "Deploy"},
+                    new Category  {Id =  new Guid(), Title = "Document"}
                 };
                 await context.Categories.AddRangeAsync(categories);
                 await context.SaveChangesAsync();
@@ -31,206 +30,169 @@ namespace Persistence
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Rubeus",
-                        Surname = "Hagrid",
-                        Email = "rub.hagrid@hogwarts.com",
+                        FirstName = "Michael",
+                        Surname = "Scott",
+                        Email = "rub.scott@office.com",
                         PhoneNumber = "096-777-77-77",
                         HiringDate = new DateTime(1995, 12, 01),
-                        Job = "Keeper of Keys and Grounds"
+                        Job = "CEO"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Argus",
-                        Surname = "Filch",
-                        Email = "arg.filch@hogwarts.com",
+                        FirstName = "Dwight",
+                        Surname = "Schrute",
+                        Email = "arg.schrute@office.com",
                         PhoneNumber = "096-666-66-66",
                         HiringDate = new DateTime(1995, 01, 01),
-                        Job = "Caretaker"
+                        Job = "Project Manager"
                         
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Remus",
-                        Surname = "Lupin",
-                        Email = "rem.lupin@hogwarts.com",
+                        FirstName = "Jim",
+                        Surname = "Halpert",
+                        Email = "rem.lupin@office.com",
                         PhoneNumber = "096-555-55-5",
                         HiringDate = new DateTime(1998, 12, 01),
-                        Job = "Defence Against the Dark Arts"
+                        Job = ".Net developer"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Minerva",
-                        Surname = "McGonagall",
-                        Email = "mnv.mcgonagall@hogwarts.com",
+                        FirstName = "Pam",
+                        Surname = "Beasley",
+                        Email = "mnv.Beasley@office.com",
                         PhoneNumber = "096-777-77-77",
                         HiringDate = new DateTime(1995, 12, 01),
-                        Job = "Transfiguration"
+                        Job = "Help Desk Analyst"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Severus",
-                        Surname = "Snape",
-                        Email = "sev.snape@hogwarts.com",
+                        FirstName = "Stanley",
+                        Surname = "Hudson",
+                        Email = "sev.Hudson@office.com",
                         PhoneNumber = "096-111-11-11",
                         HiringDate = new DateTime(1992, 07, 01),
-                        Job = "Defense Against the Dark Arts"
+                        Job = "Network Administrator/Engineer"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Irma",
-                        Surname = "Pince",
-                        Email = "irm.pince@hogwarts.com",
+                        FirstName = "Phyllis",
+                        Surname = "Lapin",
+                        Email = "irm.Lapin@office.com",
                         PhoneNumber = "096-777-77-77",
                         HiringDate = new DateTime(1995, 12, 01),
-                        Job = "Librarian"
+                        Job = "Business Analyst"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Albus",
-                        Surname = "Dumbledore",
-                        Email = "alb.dumbl@hogwarts.com",
+                        FirstName = "Angela",
+                        Surname = "Martin",
+                        Email = "alb.Martin@office.com",
                         PhoneNumber = "096-222-22-22",
                         HiringDate = new DateTime(1980, 05, 01),
-                        Job = "Headmaster"
+                        Job = "IT Project Manager"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Rolanda",
-                        Surname = "Hooch",
-                        Email = "rol.hooch@hogwarts.com",
+                        FirstName = "Oscar",
+                        Surname = "Gutierrez",
+                        Email = "rol.Gutierrez@office.com",
                         PhoneNumber = "096-333-33-33",
                         HiringDate = new DateTime(1998, 12, 01),
-                        Job = "Flying"
+                        Job = "IT Project Manager"
                     },
                     new Executor
                     {
                         Id = new Guid(),
-                        FirstName = "Alastor",
-                        Surname = "Moody",
-                        Email = "al.moody@hogwarts.com",
+                        FirstName = "Kevin",
+                        Surname = "Malone",
+                        Email = "al.Malone@office.com",
                         PhoneNumber = "096-444-44-44",
                         HiringDate = new DateTime(2000, 12, 01),
-                        Job = "Defence Against the Dark Arts"
+                        Job = "Business Analyst"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Erin",
+                        Surname = "Hannon",
+                        Email = "rem.Hannon@office.com",
+                        PhoneNumber = "096-555-55-5",
+                        HiringDate = new DateTime(1998, 12, 01),
+                        Job = ".Net developer"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Ryan",
+                        Surname = "Howard",
+                        Email = "mnv.Beasley@office.com",
+                        PhoneNumber = "096-777-77-77",
+                        HiringDate = new DateTime(1995, 12, 01),
+                        Job = "Help Desk Analyst"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Gabe",
+                        Surname = "Lewis",
+                        Email = "sev.Lewis@office.com",
+                        PhoneNumber = "096-111-11-11",
+                        HiringDate = new DateTime(1992, 07, 01),
+                        Job = "Network Administrator/Engineer"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Kelly",
+                        Surname = "Kapoor",
+                        Email = "irm.Flenderson@office.com",
+                        PhoneNumber = "096-777-77-77",
+                        HiringDate = new DateTime(1995, 12, 01),
+                        Job = "Business Analyst"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Andy",
+                        Surname = "Bernard",
+                        Email = "alb.Bernard@office.com",
+                        PhoneNumber = "096-222-22-22",
+                        HiringDate = new DateTime(1980, 05, 01),
+                        Job = "IT Project Manager"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Meredith",
+                        Surname = "Palmer",
+                        Email = "rol.Palmer@office.com",
+                        PhoneNumber = "096-333-33-33",
+                        HiringDate = new DateTime(1998, 12, 01),
+                        Job = "IT Project Manager"
+                    },
+                    new Executor
+                    {
+                        Id = new Guid(),
+                        FirstName = "Creed",
+                        Surname = "Bratton",
+                        Email = "al.Bratton@office.com",
+                        PhoneNumber = "096-444-44-44",
+                        HiringDate = new DateTime(2000, 12, 01),
+                        Job = "Business Analyst"
                     }
                 };
                 await context.Executors.AddRangeAsync(employees);
                 await context.SaveChangesAsync();
             }
-            
-            if (!context.Tasks.Any()) 
-             {  
-                var tasks = new List<WorkTask>
-            {
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Dementors",
-                    Description = "Prepare a thesis about Dementors",
-                    Deadline = DateTime.Today.AddDays(2),
-                     Status = 3
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Help Harry Potter",
-                    Description = "locating Harry Potter, helping him to find his bearings in the wizarding world and to buy his school things",
-                    Deadline = DateTime.Today.AddDays(14),
-                    Status = 3
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Spy on students",
-                    Description = "spy on students engaging in suspicious activity or out of bed after curfew",
-                    Deadline = DateTime.Today.AddDays(20),
-                    Status = 3
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "reformation of Dumbledore's Army",
-                    Description = "assist the reformation of Dumbledore's Army under the new leadership of Neville, Ginny and Seamus Finnigan and helped to ensure that their meetings were kept secret",
-                    Deadline = DateTime.Today.AddDays(7),
-                     Status = 3
-                    
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Transfer Harry",
-                    Description = "lead the party transferring Harry from 4 Privet Drive to Number 12 Grimmauld Place",
-                    Deadline = DateTime.Today.AddDays(12),
-                    Status = 3
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Help Dumbledore",
-                    Description = "slow the spread of the curse from Dumbledore's hand through his body",
-                    Deadline = DateTime.Today.AddDays(3),
-                     Status = 3
-                },
-                 new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Dementors",
-                    Description = "Prepare a thesis about Dementors",
-                    Deadline = DateTime.Today.AddDays(2),
-                     Status = 2
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Help Harry Potter",
-                    Description = "locating Harry Potter, helping him to find his bearings in the wizarding world and to buy his school things",
-                    Deadline = DateTime.Today.AddDays(14),
-                    Status = 2
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),                  
-                    Title = "Spy on students",
-                    Description = "spy on students engaging in suspicious activity or out of bed after curfew",
-                    Deadline = DateTime.Today.AddDays(20),
-                    Status = 2
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "reformation of Dumbledore's Army",
-                    Description = "assist the reformation of Dumbledore's Army under the new leadership of Neville, Ginny and Seamus Finnigan and helped to ensure that their meetings were kept secret",
-                    Deadline = DateTime.Today.AddDays(7),
-                     Status = 2
-                    
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Transfer Harry",
-                    Description = "lead the party transferring Harry from 4 Privet Drive to Number 12 Grimmauld Place",
-                    Deadline = DateTime.Today.AddDays(12),
-                    Status = 2
-                },
-                new WorkTask
-                { 
-                    Id = new Guid(),
-                    Title = "Help Dumbledore",
-                    Description = "slow the spread of the curse from Dumbledore's hand through his body",
-                    Deadline = DateTime.Today.AddDays(3),
-                     Status = 2
-                }
                 
-            };
-                await context.Tasks.AddRangeAsync(tasks);
-                await context.SaveChangesAsync();
-             }        
             return;
         }
     }

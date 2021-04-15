@@ -1,30 +1,40 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import { toast } from 'react-toastify';
 import { Category } from '../models/category';
 import { Executor } from '../models/executor';
 import { PaginatedResult } from '../models/pagination';
 import { Task } from '../models/task';
 
-const sleep = (delay: number) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay)
-    })
-}
+// const sleep = (delay: number) => {
+//     return new Promise((resolve) => {
+//         setTimeout(resolve, delay)
+//     })
+// }
 
 
 axios.defaults.baseURL = 'http://localhost:5000/api/'
 
 axios.interceptors.response.use(async response => {
-    return sleep(50).then(() => {
-        const pagination = response.headers['pagination'];
-        if(pagination){
-            response.data = new PaginatedResult(response.data, JSON.parse(pagination));
-            return response as AxiosResponse<PaginatedResult<any>>
-        }
-        return response;
-    }).catch((error) => {
-        console.log(error);
-        return Promise.reject(error);
-    })
+    const pagination = response.headers['pagination'];
+    if(pagination){
+        response.data = new PaginatedResult(response.data, JSON.parse(pagination));
+        return response as AxiosResponse<PaginatedResult<any>>
+    }
+    return response;
+}, (error: AxiosError) => {
+    const { status} = error.response!;
+    switch(status){
+        case 400: 
+        toast.error('bad request');
+        break;
+        case 404: 
+        toast.error('not found');
+        break;
+        case 500: 
+        toast.error('server error');
+        break;
+    }
+    return Promise.reject(error);
 })
 
 const responseBody = <T> (response: AxiosResponse<T>) => response.data;

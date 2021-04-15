@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './app/layout/styles.css';
 import App from './app/layout/App';
+import 'react-toastify/dist/ReactToastify.min.css'
 import { store, StoreContext } from './app/stores/store';
 import { BrowserRouter } from 'react-router-dom';
 

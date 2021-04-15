@@ -14,7 +14,7 @@ export default observer(function ExecutorDetails(){
 
     return (
         <Card fluid>
-            <Image src={`/assets/bruce.png`}  size='small' wrapped ui={false}/>
+            <Image src={`/assets/user.png`}   size='small' wrapped ui={false}/>
             <Card.Content>
                 <Card.Header>{executor.firstName} {executor.surname}</Card.Header>
                 <Card.Meta>

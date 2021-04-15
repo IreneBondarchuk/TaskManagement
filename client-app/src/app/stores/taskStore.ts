@@ -88,7 +88,6 @@ export default class TaskStore {
     }
 
     selectTask=(id: string) => {
-        debugger;
         this.selectedTask = this.taskRegistry.get(id) ;
     }
 

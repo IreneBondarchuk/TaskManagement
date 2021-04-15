@@ -34,7 +34,7 @@ export default function TaskFilters(){
                         link: true,
                         onClick:()=>handleClick('title'),
                         placeholder:'Search...'  }}
-                    onChange={(e) => {e.target.value && setTarget(e.target.value)}}
+                    onChange={(e) => {setTarget(e.target.value)}}
                     value={target}
                     placeholder='Title'
                 />

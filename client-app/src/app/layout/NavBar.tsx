@@ -16,6 +16,7 @@ export default function NavBar(){
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/tasks' name='Tasks' />
                 <Menu.Item as={NavLink} to='/executors' name='Executors' />
+                <Menu.Item as={NavLink} to='/errors' name='Errors' />
                 <Menu.Item >
                     <Button as={Link} to='/tasks' onClick={() => taskStore.openForm()} positive content='Create Task' />
                 </Menu.Item>
