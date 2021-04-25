@@ -3,19 +3,17 @@ import React, { useEffect } from 'react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { useStore } from '../../../app/stores/store'
-import TaskDetails from '../details/TaskDetail'
-import TaskForm from '../form/TaskForm'
 import TaskFilters from './TaskFilters'
 import TaskList from './TaskList'
 
 
 export default observer(function TaskDashboard(){
     const {taskStore, categoryStore, executorStore} = useStore();
-    const {selectedTask, editMode} = taskStore
+    const {loadTasks, taskRegistry} = taskStore;
 
     useEffect(() => {
-     taskStore.loadTasks();
-    }, [taskStore])
+     if(taskRegistry.size <= 1) loadTasks();
+    }, [taskRegistry.size, loadTasks])
 
     useEffect(() => {
         categoryStore.loadCategories();
@@ -55,8 +53,6 @@ export default observer(function TaskDashboard(){
             
             <Grid.Column width='4'>
                 <TaskFilters/>
-                    {selectedTask && <TaskDetails  />} 
-                    {editMode && <TaskForm  />}
             </Grid.Column>
         </Grid>
         

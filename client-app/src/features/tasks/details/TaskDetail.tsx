@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom';
 import { Button, Card, Icon, Label } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { useStore } from '../../../app/stores/store';
@@ -8,9 +9,14 @@ import { useStore } from '../../../app/stores/store';
 
 export default observer(function TaskDetails(){
     const {taskStore} = useStore();
-    const {selectedTask: task, openForm,cancelSelectTask} = taskStore;
+    const {selectedTask: task, loadTask, loadingInitial} = taskStore;
+    const {id} = useParams<{id: string}>();
 
-    if(!task) return <LoadingComponent />;
+    useEffect(() => {
+        if(id) loadTask(id);
+    },[id, loadTask]);
+
+    if(loadingInitial || !task) return <LoadingComponent />;
 
     return (
         <Card fluid>
@@ -28,8 +34,8 @@ export default observer(function TaskDetails(){
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths= '2'>
-                    <Button onClick={() => openForm(task.id)} basic color='blue' content='Edit' />
-                    <Button onClick={() => cancelSelectTask()} content='Cancel' />
+                    <Button as={Link} to={`/editTask/${task.id}`} basic color='blue' content='Edit' />
+                    <Button as={Link} to='/tasks' content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>

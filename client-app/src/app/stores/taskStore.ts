@@ -1,7 +1,6 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx"
 import agent from "../api/agent";
 import { Task } from "../models/task"
-import {v4 as uuid} from 'uuid'
 
 export default class TaskStore {
     taskRegistry = new Map<string, Task>()
@@ -66,13 +65,13 @@ export default class TaskStore {
     get tasksByDate(){
         return Array.from(this.taskRegistry.values()).sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
     }
+
     loadTasks = async ()=>{
         this.setLoadingInitial(true);
         try{
             const result = await agent.Tasks.list(this.axiosParams);
             result.forEach(task =>{
-                task.deadline = task.deadline.split('T')[0];
-                this.taskRegistry.set(task.id, task);
+                    this.setTask(task);
                 })
             this.setLoadingInitial(false);
         }catch(error){
@@ -82,32 +81,43 @@ export default class TaskStore {
 
     }
 
+    loadTask = async (id: string) => {
+        let task = this.getTask(id);
+        if(task) {
+            this.selectedTask = task;
+            return task;
+        }else {
+            this.loadingInitial = true;
+            try{
+                task = await agent.Tasks.details(id);
+                this.setTask(task);
+                this.selectedTask = task;
+                this.setLoadingInitial(false);
+                return task;
+            } catch(error) {
+                console.log(error);
+                this.setLoadingInitial(false);
+            }
+        }
+    }
+
+    private getTask = (id: string) => {
+        return this.taskRegistry.get(id);
+    }
+
+    private setTask = (task: Task) => {
+        task.deadline = task.deadline?.split('T')[0];
+        this.taskRegistry.set(task.id, task);
+    }
 
     setLoadingInitial=(state: boolean) => {
         this.loadingInitial = state;
     }
 
-    selectTask=(id: string) => {
-        this.selectedTask = this.taskRegistry.get(id) ;
-    }
-
-    cancelSelectTask = () => {
-        this.selectedTask = undefined;
-        this.editMode = false;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectTask(id) : this.cancelSelectTask();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
-    }
 
     createTask = async(task: Task) => {
         this.loading = true;
-        task.id = uuid();
+        debugger;
         try{
             await agent.Tasks.create(task);
             runInAction(() =>{
@@ -149,7 +159,6 @@ export default class TaskStore {
             await agent.Tasks.delete(id);
             runInAction(() => {
                 this.taskRegistry.delete(id);
-                if(this.selectedTask?.id === id) this.cancelSelectTask(); 
                 this.submitting = false;
             })
         }catch(error){
